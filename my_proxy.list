@@ -12,7 +12,6 @@
 #gitbook
 DOMAIN-SUFFIX,gitbook.io
 DOMAIN-SUFFIX,gitbook.com
-DOMAIN-SUFFIX,firebaseio.com
 
 #adguard
 DOMAIN-SUFFIX,adguard.org
