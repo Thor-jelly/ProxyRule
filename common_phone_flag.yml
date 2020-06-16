@@ -1,0 +1,25 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  listen: 127.0.0.1:2525
+  default-nameserver:
+    - 223.5.5.5 # 阿里DNS
+    #- 119.29.29.29 # 腾讯DNS
+    #- 8.8.8.8 # 谷歌DNS
+    #- 1.1.1.1 # Cloudflare DNS
+    - 1.0.0.1 # Cloudflare DNS
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.10.0.1/16
+  nameserver:
+    - 119.29.29.29 # 腾讯DNS
+    - 223.6.6.6 # 阿里DNS
+    #- 1.0.0.1
+    #- https://dns.alidns.com/dns-query # 阿里 DoH DNS
+    #- https://dns.google/dns-query
+    #- https://cloudflare-dns.com/dns-query
