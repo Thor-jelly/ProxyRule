@@ -13,7 +13,7 @@ dns:
     - 8.8.8.8 # 谷歌DNS
     - 1.1.1.1 # Cloudflare DNS
     #- 223.6.6.6 # 阿里DNS
-    #- 1.0.0.1
+    #- 1.0.0.1 
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.10.0.1/16
