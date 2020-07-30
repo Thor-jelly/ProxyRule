@@ -7,19 +7,19 @@ external-controller: 127.0.0.1:9090
 dns:
   enable: true
   listen: 127.0.0.1:53
-  default-nameserver:
-    - 119.29.29.29 # 腾讯DNS
-    - 223.5.5.5 # 阿里DNS
-    - 223.6.6.6 # 阿里DNS
-    - 1.1.1.1 # Cloudflare DNS
-    - 1.0.0.1 # Cloudflare DNS
-    - 8.8.8.8 # 谷歌DNS
-  ipv6: false
-  enhanced-mode: fake-ip
-  fake-ip-range: 198.10.0.1/16
-  nameserver:
-    - https://dns.alidns.com/dns-query # 阿里 DoH DNS
-    - tls://cloudflare-dns.com
-    - tls://dns.google
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
+#  default-nameserver:
+#    - 119.29.29.29 # 腾讯DNS
+#    - 223.5.5.5 # 阿里DNS
+#    - 223.6.6.6 # 阿里DNS
+#    - 1.1.1.1 # Cloudflare DNS
+#    - 1.0.0.1 # Cloudflare DNS
+#    - 8.8.8.8 # 谷歌DNS
+#  ipv6: false
+#  enhanced-mode: fake-ip
+#  fake-ip-range: 198.10.0.1/16
+#  nameserver:
+#    - https://dns.alidns.com/dns-query # 阿里 DoH DNS
+#    - tls://cloudflare-dns.com
+#    - tls://dns.google
+#    - https://cloudflare-dns.com/dns-query
+#    - https://dns.google/dns-query
