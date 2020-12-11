@@ -16,4 +16,7 @@ DOMAIN-SUFFIX,gitbook.com
 #adguard
 DOMAIN-SUFFIX,adguard.org
 
+#httpcanary
+DOMAIN-SUFFIX,httpcanary.com
+
 #漏网之鱼
