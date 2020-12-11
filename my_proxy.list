@@ -18,5 +18,6 @@ DOMAIN-SUFFIX,adguard.org
 
 #httpcanary
 DOMAIN-SUFFIX,httpcanary.com
+DOMAIN-SUFFIX,mobile.httpcanary.com
 
 #漏网之鱼
