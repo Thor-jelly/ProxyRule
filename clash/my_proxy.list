@@ -20,4 +20,7 @@ DOMAIN-SUFFIX,adguard.org
 DOMAIN-SUFFIX,httpcanary.com
 DOMAIN-SUFFIX,mobile.httpcanary.com
 
+#figma
+DOMAIN-SUFFIX,figma.com
+
 #漏网之鱼
