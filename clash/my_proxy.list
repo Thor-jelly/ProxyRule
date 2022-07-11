@@ -11,6 +11,7 @@
 
 #google
 #DOMAIN-SUFFIX,dl.google.com
+DOMAIN-SUFFIX,gstatic.com
 
 #gitbook
 DOMAIN-SUFFIX,gitbook.io
