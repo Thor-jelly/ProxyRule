@@ -11,6 +11,9 @@
 
 #m
 DOMAIN,gitlab.jushuitan-inc.com
+DOMAIN-SUFFIX,juhuotong.com
+DOMAIN-SUFFIX,jushuitan.com
+DOMAIN-SUFFIX,yuque.com
 
 #iris护眼软件
 DOMAIN,ip-api.com
