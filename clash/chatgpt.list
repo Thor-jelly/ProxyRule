@@ -1,0 +1,20 @@
+#DOMAIN-SUFFIX：域名后缀匹配
+#DOMAIN：域名匹配
+#DOMAIN-KEYWORD：域名关键字匹配
+#IP-CIDR：IP段匹配
+#SRC-IP-CIDR：源IP段匹配
+#GEOIP：GEOIP数据库（国家代码）匹配
+#DST-PORT：目标端口匹配
+#SRC-PORT：源端口匹配
+#MATCH：全匹配（一般放在最后）
+#no-resolve」，不要去尝试解析来匹配这条规则，只处理「直接 IP 访问」的请求。
+
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,challenges.cloudflare.com
+# Add ai.com
+DOMAIN-SUFFIX,ai.com
+# Add stripe.com
+DOMAIN-SUFFIX,invoice.stripe.com
+DOMAIN-SUFFIX,stripe.com
+#add poe.com
+DOMAIN-SUFFIX,poe.com
