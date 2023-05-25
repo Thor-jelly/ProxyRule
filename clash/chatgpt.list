@@ -21,3 +21,6 @@ DOMAIN-SUFFIX,poe.com
 
 #google bard
 DOMAIN,bard.google.com
+
+#mst.ai
+DOMAIN-SUFFIX,mst.ai
