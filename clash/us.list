@@ -12,8 +12,11 @@
 # Add stripe.com
 DOMAIN-SUFFIX,invoice.stripe.com
 DOMAIN-SUFFIX,stripe.com
-#add poe.com
+# add poe.com
 DOMAIN-SUFFIX,poe.com
 
-#google bard
+# google bard
 DOMAIN,bard.google.com
+
+# 免费https://mst.ai/home
+DOMAIN-SUFFIX,mst.ai
