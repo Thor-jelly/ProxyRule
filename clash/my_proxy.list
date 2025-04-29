@@ -13,7 +13,8 @@
 #DOMAIN-SUFFIX,dl.google.com
 DOMAIN-SUFFIX,gstatic.com
 
-#gitbook
+#gitbook/github
+DOMAIN-SUFFIX,raw.githubusercontent.com
 DOMAIN-SUFFIX,gitbook.io
 DOMAIN-SUFFIX,gitbook.com
 
