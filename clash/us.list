@@ -24,3 +24,7 @@ DOMAIN-SUFFIX,mst.ai
 # openai
 DOMAIN-SUFFIX,oaistatic.com
 DOMAIN-SUFFIX,oaiusercontent.com
+
+# Claude补充
+DOMAIN-SUFFIX,claudeusercontent.com
+
