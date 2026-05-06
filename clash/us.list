@@ -28,3 +28,8 @@ DOMAIN-SUFFIX,oaiusercontent.com
 # Claude补充
 DOMAIN-SUFFIX,claudeusercontent.com
 
+# kiro
+DOMAIN-SUFFIX,kiro.dev
+# aws（依赖）
+DOMAIN-SUFFIX,amazonaws.com
+DOMAIN-SUFFIX,awsapps.com
