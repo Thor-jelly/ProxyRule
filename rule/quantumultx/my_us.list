@@ -1,0 +1,49 @@
+# ======================================
+# 自定义美国节点规则（Quantumult X 专用）
+# ======================================
+# 规则类型说明：
+# - HOST: 域名匹配
+# - HOST-SUFFIX: 域名后缀匹配
+# - HOST-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP6-CIDR: IPv6段匹配
+# 注意：
+# - no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# - 策略名称与 Surge 保持一致：美国
+# ======================================
+
+# ======================================
+# AI 服务补充
+# ======================================
+# OpenAI 相关
+HOST-SUFFIX,oaistatic.com,美国
+HOST-SUFFIX,oaiusercontent.com,美国
+
+# Google Bard
+HOST,bard.google.com,美国
+
+# Claude 补充
+HOST-SUFFIX,claudeusercontent.com,美国
+
+# POE AI
+HOST-SUFFIX,poe.com,美国
+
+# MST AI（免费 AI 服务）
+HOST-SUFFIX,mst.ai,美国
+
+# ======================================
+# 支付服务
+# ======================================
+# Stripe 支付
+HOST-SUFFIX,invoice.stripe.com,美国
+HOST-SUFFIX,stripe.com,美国
+
+# ======================================
+# 开发工具
+# ======================================
+# Kiro AI 开发工具
+HOST-SUFFIX,kiro.dev,美国
+
+# AWS 云服务（依赖）
+HOST-SUFFIX,amazonaws.com,美国
+HOST-SUFFIX,awsapps.com,美国

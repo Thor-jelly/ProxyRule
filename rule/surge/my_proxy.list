@@ -1,0 +1,43 @@
+# ======================================
+# 自定义代理规则（Surge / Loon 通用）
+# ======================================
+# 规则类型说明：
+# - DOMAIN: 域名匹配
+# - DOMAIN-SUFFIX: 域名后缀匹配
+# - DOMAIN-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP-CIDR6: IPv6段匹配
+# 注意：no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# ======================================
+
+# ======================================
+# Google 相关服务
+# ======================================
+# Google 静态资源
+DOMAIN-SUFFIX,gstatic.com
+# Google 下载服务（可选）
+;DOMAIN-SUFFIX,dl.google.com
+
+# ======================================
+# 开发工具和文档
+# ======================================
+# GitHub Raw 内容
+DOMAIN-SUFFIX,raw.githubusercontent.com
+# GitBook 文档
+DOMAIN-SUFFIX,gitbook.io
+DOMAIN-SUFFIX,gitbook.com
+
+# ======================================
+# 网络工具
+# ======================================
+# AdGuard 广告拦截
+DOMAIN-SUFFIX,adguard.org
+# HttpCanary 抓包工具
+DOMAIN-SUFFIX,httpcanary.com
+DOMAIN-SUFFIX,mobile.httpcanary.com
+
+# ======================================
+# 设计工具
+# ======================================
+# Figma 在线设计工具
+DOMAIN-SUFFIX,figma.com
