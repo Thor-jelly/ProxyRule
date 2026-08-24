@@ -284,16 +284,7 @@ function main(config, profileName) {
       ...groupBaseOption,
       name: "网速超快",
       type: "select",
-      proxies: ["香港", "台湾", "日本", "韩国", "新加坡", "美国", "自动选择", "DIRECT"],
-      "include-all": true
-    },
-    
-    // > 自动选择
-    {
-      ...groupBaseOption,
-      name: "自动选择",
-      type: "url-test",
-      tolerance: 50,
+      proxies: ["香港", "台湾", "日本", "韩国", "新加坡", "美国", "DIRECT"],
       "include-all": true
     },
     
