@@ -1,0 +1,34 @@
+# ======================================
+# 自定义直连规则（Quantumult X 专用）
+# ======================================
+# 规则类型说明：
+# - HOST: 域名匹配
+# - HOST-SUFFIX: 域名后缀匹配
+# - HOST-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP6-CIDR: IPv6段匹配
+# 注意：no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# ======================================
+
+# ======================================
+# 工作相关域名
+# ======================================
+# 聚水潭相关
+HOST,gitlab.jushuitan-inc.com,DIRECT
+HOST-SUFFIX,juhuotong.com,DIRECT
+HOST-SUFFIX,jushuitan.com,DIRECT
+# 语雀文档
+HOST-SUFFIX,yuque.com,DIRECT
+
+# ======================================
+# 常用软件和服务
+# ======================================
+# Iris 护眼软件
+HOST,ip-api.com,DIRECT
+HOST,iristech.co,DIRECT
+
+# Apple 教育资质验证
+HOST,myunidays.uk,DIRECT
+
+# Spaceship 域名服务
+HOST-KEYWORD,spaceship,DIRECT

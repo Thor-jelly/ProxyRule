@@ -1,0 +1,45 @@
+# ======================================
+# 自定义代理规则（Quantumult X 专用）
+# ======================================
+# 规则类型说明：
+# - HOST: 域名匹配
+# - HOST-SUFFIX: 域名后缀匹配
+# - HOST-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP6-CIDR: IPv6段匹配
+# 注意：
+# - no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# - 策略名称与 Surge 保持一致：网速超快
+# ======================================
+
+# ======================================
+# Google 相关服务
+# ======================================
+# Google 静态资源
+HOST-SUFFIX,gstatic.com,网速超快
+# Google 下载服务（可选）
+;HOST-SUFFIX,dl.google.com,网速超快
+
+# ======================================
+# 开发工具和文档
+# ======================================
+# GitHub Raw 内容
+HOST-SUFFIX,raw.githubusercontent.com,网速超快
+# GitBook 文档
+HOST-SUFFIX,gitbook.io,网速超快
+HOST-SUFFIX,gitbook.com,网速超快
+
+# ======================================
+# 网络工具
+# ======================================
+# AdGuard 广告拦截
+HOST-SUFFIX,adguard.org,网速超快
+# HttpCanary 抓包工具
+HOST-SUFFIX,httpcanary.com,网速超快
+HOST-SUFFIX,mobile.httpcanary.com,网速超快
+
+# ======================================
+# 设计工具
+# ======================================
+# Figma 在线设计工具
+HOST-SUFFIX,figma.com,网速超快

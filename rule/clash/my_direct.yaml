@@ -1,0 +1,35 @@
+# ======================================
+# 自定义直连规则（Clash 专用）
+# ======================================
+# 规则类型说明：
+# - DOMAIN: 域名匹配
+# - DOMAIN-SUFFIX: 域名后缀匹配
+# - DOMAIN-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP-CIDR6: IPv6段匹配
+# 注意：no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# ======================================
+
+payload:
+  # ======================================
+  # 工作相关域名
+  # ======================================
+  # 聚水潭相关
+  - DOMAIN,gitlab.jushuitan-inc.com
+  - DOMAIN-SUFFIX,juhuotong.com
+  - DOMAIN-SUFFIX,jushuitan.com
+  # 语雀文档
+  - DOMAIN-SUFFIX,yuque.com
+
+  # ======================================
+  # 常用软件和服务
+  # ======================================
+  # Iris 护眼软件
+  - DOMAIN,ip-api.com
+  - DOMAIN,iristech.co
+
+  # Apple 教育资质验证
+  - DOMAIN,myunidays.uk
+
+  # Spaceship 域名服务
+  - DOMAIN-KEYWORD,spaceship

@@ -1,0 +1,48 @@
+# ======================================
+# 自定义美国节点规则（Clash 专用）
+# ======================================
+# 规则类型说明：
+# - DOMAIN: 域名匹配
+# - DOMAIN-SUFFIX: 域名后缀匹配
+# - DOMAIN-KEYWORD: 域名关键字匹配
+# - IP-CIDR: IP段匹配
+# - IP-CIDR6: IPv6段匹配
+# 注意：no-resolve 表示不解析域名，只处理直接 IP 访问的请求
+# ======================================
+
+payload:
+  # ======================================
+  # AI 服务补充
+  # ======================================
+  # OpenAI 相关
+  - DOMAIN-SUFFIX,oaistatic.com
+  - DOMAIN-SUFFIX,oaiusercontent.com
+
+  # Google Bard
+  - DOMAIN,bard.google.com
+
+  # Claude 补充
+  - DOMAIN-SUFFIX,claudeusercontent.com
+
+  # POE AI
+  - DOMAIN-SUFFIX,poe.com
+
+  # MST AI（免费 AI 服务）
+  - DOMAIN-SUFFIX,mst.ai
+
+  # ======================================
+  # 支付服务
+  # ======================================
+  # Stripe 支付
+  - DOMAIN-SUFFIX,invoice.stripe.com
+  - DOMAIN-SUFFIX,stripe.com
+
+  # ======================================
+  # 开发工具
+  # ======================================
+  # Kiro AI 开发工具
+  - DOMAIN-SUFFIX,kiro.dev
+
+  # AWS 云服务（依赖）
+  - DOMAIN-SUFFIX,amazonaws.com
+  - DOMAIN-SUFFIX,awsapps.com
