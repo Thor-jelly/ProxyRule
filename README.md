@@ -138,7 +138,6 @@ https://raw.githubusercontent.com/Thor-jelly/ProxyRule/master/rule/quantumultx/m
 | 策略组 | 用途 |
 |--------|------|
 | **网速超快** | 主策略组（手动选择） |
-| **自动选择** | 自动选择延迟最低节点（可选） |
 | **香港** | 香港节点 |
 | **台湾** | 台湾节点 |
 | **日本** | 日本节点 |
@@ -162,5 +161,5 @@ https://raw.githubusercontent.com/Thor-jelly/ProxyRule/master/rule/quantumultx/m
 ## 📌 规则来源
 
 - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) - 主要规则来源
-- [ACL4SSR](https://github.com/ACL4SSR/ACL4SSR) - Clash 规则来源
+- [ACL4SSR](https://github.com/ACL4SSR/ACL4SSR) -  规则来源
 - [w37fhy/QuantumultX](https://github.com/w37fhy/QuantumultX) - Quantumult X 规则参考
