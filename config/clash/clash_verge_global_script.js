@@ -232,7 +232,7 @@ const dnsConfig = {
   ipv6: false,
   "enhanced-mode": "fake-ip",
   "fake-ip-range": "198.18.0.1/16",
-  "default-nameserver": ["119.29.29.29", "223.5.5.5"],
+  "default-nameserver": ["119.29.29.29", "223.5.5.5", "8.8.8.8", "1.1.1.1"],
   nameserver: [
     "https://dns.alidns.com/dns-query",
     "https://doh.pub/dns-query"
