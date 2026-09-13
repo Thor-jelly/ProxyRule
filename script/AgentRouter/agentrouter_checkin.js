@@ -14,33 +14,35 @@ const USER_AGENT =
   "Chrome/138.0.0.0 Safari/537.36";
 
 /**
- * 高容错参数解析：无需在 QX 中加双引号，自动去空及解码
+ * 终极解析逻辑：使用正则表达式直接抓取 email 与 password
+ * 自动兼容带/不带引号、空格及 QX 不同的传参包裹格式
  */
 function getArguments() {
-  const result = {};
+  const result = { email: "", password: "" };
   if (typeof $argument === "undefined" || !$argument) return result;
-  
-  let argStr = String($argument).trim();
-  argStr = argStr.replace(/^["']+|["']+$|\s/g, '');
 
-  if (!argStr) return result;
+  const argStr = String($argument);
 
-  const params = argStr.split("&");
-  for (const item of params) {
-    const index = item.indexOf("=");
-    if (index === -1) continue;
-    
-    const key = item.substring(0, index).trim();
-    const value = item.substring(index + 1).trim();
-    
-    if (key) {
-      try {
-        result[key] = decodeURIComponent(value);
-      } catch (e) {
-        result[key] = value;
-      }
+  // 匹配 email=xxx（匹配到 &、引号或结尾）
+  const emailMatch = argStr.match(/email\s*=\s*([^&"'\s]+)/i);
+  if (emailMatch && emailMatch[1]) {
+    try {
+      result.email = decodeURIComponent(emailMatch[1].trim());
+    } catch (e) {
+      result.email = emailMatch[1].trim();
     }
   }
+
+  // 匹配 password=xxx（匹配到 &、引号或结尾）
+  const passMatch = argStr.match(/password\s*=\s*([^&"'\s]+)/i);
+  if (passMatch && passMatch[1]) {
+    try {
+      result.password = decodeURIComponent(passMatch[1].trim());
+    } catch (e) {
+      result.password = passMatch[1].trim();
+    }
+  }
+
   return result;
 }
 
