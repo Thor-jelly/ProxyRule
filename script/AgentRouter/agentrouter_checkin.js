@@ -1,5 +1,5 @@
 /*
- * AgentRouter 自动签到 (带调试日志版)
+ * AgentRouter 自动签到 (防 undefined 增强版)
  * Quantumult X Script
  *
  * Repository: https://github.com/Thor-jelly/ProxyRule
@@ -14,28 +14,32 @@ const USER_AGENT =
   "Chrome/138.0.0.0 Safari/537.36";
 
 /**
- * 带有日志打印的参数解析逻辑
+ * 健壮的参数解析：兼容 $argument 未定义情况
  */
 function getArguments() {
   const result = { email: "", password: "" };
-  
-  // 1. 检查 $argument 是否存在
-  if (typeof $argument === "undefined") {
-    console.log("[AgentRouter 调试] $argument 变量未定义 (undefined)");
-    return result;
+  let rawArg = "";
+
+  // 1. 尝试读取全局 $argument
+  if (typeof $argument !== "undefined" && $argument) {
+    rawArg = String($argument);
   }
 
-  const rawArg = String($argument);
-  console.log("[AgentRouter 调试] 接收到的原始 $argument 内容为: [" + rawArg + "]");
+  // 2. 备用逻辑：若 $argument 未定义，尝试从环境变量读取
+  if (!rawArg && typeof $environment !== "undefined" && $environment) {
+    if ($environment.option && $environment.option.argument) {
+      rawArg = String($environment.option.argument);
+    }
+  }
+
+  console.log("[AgentRouter 调试] 读取到的参数原文: [" + rawArg + "]");
 
   if (!rawArg || rawArg.trim() === "") {
-    console.log("[AgentRouter 调试] $argument 内容为空字符串");
     return result;
   }
 
-  // 2. 正则提取 email
-  // 匹配 email=xxx（遇到 &、引号、空格或结尾停止）
-  const emailMatch = rawArg.match(/email\s*=\s*([^&"'\s]+)/i);
+  // 3. 正则提取 email
+  const emailMatch = rawArg.match(/email\s*=\s*([^&"'\s,]+)/i);
   if (emailMatch && emailMatch[1]) {
     try {
       result.email = decodeURIComponent(emailMatch[1].trim());
@@ -44,9 +48,8 @@ function getArguments() {
     }
   }
 
-  // 3. 正则提取 password
-  // 匹配 password=xxx（遇到 &、引号、空格或结尾停止）
-  const passMatch = rawArg.match(/password\s*=\s*([^&"'\s]+)/i);
+  // 4. 正则提取 password
+  const passMatch = rawArg.match(/password\s*=\s*([^&"'\s,]+)/i);
   if (passMatch && passMatch[1]) {
     try {
       result.password = decodeURIComponent(passMatch[1].trim());
@@ -55,8 +58,8 @@ function getArguments() {
     }
   }
 
-  console.log("[AgentRouter 调试] 解析出来的 email: [" + result.email + "]");
-  console.log("[AgentRouter 调试] 解析出来的 password: [" + (result.password ? "******(已获取)" : "空") + "]");
+  console.log("[AgentRouter 调试] 解析到的 email: [" + result.email + "]");
+  console.log("[AgentRouter 调试] 解析到的 password: [" + (result.password ? "******" : "空") + "]");
 
   return result;
 }
@@ -217,7 +220,7 @@ async function main() {
     $notify(
       "AgentRouter 自动签到",
       "",
-      "❌ 未配置账号\n\n请在 QX 配置中加上 argument：\nargument=email=你的邮箱&password=你的密码"
+      "❌ 未配置账号\n\n请在 QX 配置中加上 argument：\nargument=\"email=你的邮箱&password=你的密码\""
     );
     $done();
     return;

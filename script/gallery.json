@@ -5,7 +5,7 @@
   "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Task.png",
   "task": [
     {
-      "config": "0 9 * * * https://raw.githubusercontent.com/Thor-jelly/ProxyRule/refs/heads/master/script/AgentRouter/agentrouter_checkin.js, tag=AgentRouter签到, argument=email=你的邮箱&password=你的密码, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Task.png, enabled=true",
+      "config": "0 9 * * * https://raw.githubusercontent.com/Thor-jelly/ProxyRule/refs/heads/master/script/AgentRouter/agentrouter_checkin.js, tag=AgentRouter签到, argument=\"email=你的邮箱&password=你的密码\", img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Task.png, enabled=true",
       "addons": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Task.png, tag=AgentRouter签到"
     }
   ]
