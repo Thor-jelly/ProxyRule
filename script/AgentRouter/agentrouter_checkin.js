@@ -1,5 +1,5 @@
 /*
- * AgentRouter 自动签到
+ * AgentRouter 自动签到 (带调试日志版)
  * Quantumult X Script
  *
  * Repository: https://github.com/Thor-jelly/ProxyRule
@@ -14,17 +14,28 @@ const USER_AGENT =
   "Chrome/138.0.0.0 Safari/537.36";
 
 /**
- * 终极解析逻辑：使用正则表达式直接抓取 email 与 password
- * 自动兼容带/不带引号、空格及 QX 不同的传参包裹格式
+ * 带有日志打印的参数解析逻辑
  */
 function getArguments() {
   const result = { email: "", password: "" };
-  if (typeof $argument === "undefined" || !$argument) return result;
+  
+  // 1. 检查 $argument 是否存在
+  if (typeof $argument === "undefined") {
+    console.log("[AgentRouter 调试] $argument 变量未定义 (undefined)");
+    return result;
+  }
 
-  const argStr = String($argument);
+  const rawArg = String($argument);
+  console.log("[AgentRouter 调试] 接收到的原始 $argument 内容为: [" + rawArg + "]");
 
-  // 匹配 email=xxx（匹配到 &、引号或结尾）
-  const emailMatch = argStr.match(/email\s*=\s*([^&"'\s]+)/i);
+  if (!rawArg || rawArg.trim() === "") {
+    console.log("[AgentRouter 调试] $argument 内容为空字符串");
+    return result;
+  }
+
+  // 2. 正则提取 email
+  // 匹配 email=xxx（遇到 &、引号、空格或结尾停止）
+  const emailMatch = rawArg.match(/email\s*=\s*([^&"'\s]+)/i);
   if (emailMatch && emailMatch[1]) {
     try {
       result.email = decodeURIComponent(emailMatch[1].trim());
@@ -33,8 +44,9 @@ function getArguments() {
     }
   }
 
-  // 匹配 password=xxx（匹配到 &、引号或结尾）
-  const passMatch = argStr.match(/password\s*=\s*([^&"'\s]+)/i);
+  // 3. 正则提取 password
+  // 匹配 password=xxx（遇到 &、引号、空格或结尾停止）
+  const passMatch = rawArg.match(/password\s*=\s*([^&"'\s]+)/i);
   if (passMatch && passMatch[1]) {
     try {
       result.password = decodeURIComponent(passMatch[1].trim());
@@ -42,6 +54,9 @@ function getArguments() {
       result.password = passMatch[1].trim();
     }
   }
+
+  console.log("[AgentRouter 调试] 解析出来的 email: [" + result.email + "]");
+  console.log("[AgentRouter 调试] 解析出来的 password: [" + (result.password ? "******(已获取)" : "空") + "]");
 
   return result;
 }
@@ -193,6 +208,7 @@ async function checkin(email, password) {
 }
 
 async function main() {
+  console.log("[AgentRouter] === 脚本开始运行 ===");
   const args = getArguments();
   const email = args.email || "";
   const password = args.password || "";
