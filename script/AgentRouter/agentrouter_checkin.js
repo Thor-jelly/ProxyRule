@@ -1,6 +1,5 @@
 /*
- * AgentRouter 自动签到 (完整调试打印版)
- * Quantumult X Script
+ * AgentRouter 自动签到 ( Quantumult X )
  *
  * Repository: https://github.com/Thor-jelly/ProxyRule
  */
@@ -14,42 +13,51 @@ const USER_AGENT =
   "Chrome/138.0.0.0 Safari/537.36";
 
 /**
- * 完整参数调试打印解析函数
+ * 调试与参数提取函数
  */
 function getArguments() {
   const result = { email: "", password: "" };
 
-  console.log("---------------- [AgentRouter 参数调试 开始] ----------------");
-  
-  // 1. 打印 $argument 变量的数据类型
-  const argType = typeof $argument;
-  console.log("[调试] $argument 变量类型: " + argType);
+  console.log("================ [DEBUG START] ================");
+  // 1. 打印 QX 传入的全部 $environment 对象结构
+  console.log(
+    "[DEBUG] 全部环境对象: " +
+      JSON.stringify(typeof $environment !== "undefined" ? $environment : {})
+  );
 
-  if (argType === "undefined") {
-    console.log("[调试] $argument 变量未定义 (undefined)");
-    console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
-    return result;
+  // 2. 检查 $argument 变量的数据类型与内容
+  const argType = typeof $argument;
+  console.log("[DEBUG] $argument 变量类型: " + argType);
+
+  let rawArg = "";
+  if (argType !== "undefined" && $argument) {
+    rawArg = String($argument);
+    console.log("[DEBUG] 读取到的 $argument 原文: [" + rawArg + "]");
+  } else {
+    console.log("[DEBUG] $argument 为 undefined 或为空");
   }
 
-  // 2. 转为字符串并打印原始数据及长度
-  const rawArg = String($argument);
-  console.log("[调试] $argument 原始字符串: [" + rawArg + "]");
-  console.log("[调试] $argument 字符串长度: " + rawArg.length);
+  // 3. 备用读取方案：尝试从 $environment.option 提取
+  if (!rawArg && typeof $environment !== "undefined" && $environment && $environment.option) {
+    if ($environment.option.argument) {
+      rawArg = String($environment.option.argument);
+      console.log("[DEBUG] 从 $environment.option 提取到的 argument: [" + rawArg + "]");
+    }
+  }
 
   if (!rawArg || rawArg.trim() === "") {
-    console.log("[调试] $argument 内容为空字符串或仅包含空格");
-    console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
+    console.log("[DEBUG] 最终可用的参数原文为空，无法提取账号密码");
+    console.log("================ [DEBUG END] ================");
     return result;
   }
 
-  // 3. 预防性清理前缀与包裹引号
+  // 清理可能误包的外层双引号与首尾空格
   let cleanArg = rawArg.replace(/^argument\s*=\s*/i, "").trim();
   cleanArg = cleanArg.replace(/^["']+|["']+$|\s/g, "");
-  console.log("[调试] 清理后的待解析字符串: [" + cleanArg + "]");
+  console.log("[DEBUG] 清理后的待匹配字符串: [" + cleanArg + "]");
 
-  // 4. 正则匹配 email
+  // 4. 正则提取 email
   const emailMatch = cleanArg.match(/email\s*=\s*([^&"'\s,]+)/i);
-  console.log("[调试] email 正则匹配结果: " + JSON.stringify(emailMatch));
   if (emailMatch && emailMatch[1]) {
     try {
       result.email = decodeURIComponent(emailMatch[1].trim());
@@ -58,9 +66,8 @@ function getArguments() {
     }
   }
 
-  // 5. 正则匹配 password
+  // 5. 正则提取 password
   const passMatch = cleanArg.match(/password\s*=\s*([^&"'\s,]+)/i);
-  console.log("[调试] password 正则匹配结果: " + JSON.stringify(passMatch));
   if (passMatch && passMatch[1]) {
     try {
       result.password = decodeURIComponent(passMatch[1].trim());
@@ -69,8 +76,14 @@ function getArguments() {
     }
   }
 
-  console.log("[调试] 最终提取结果 -> Email: [" + result.email + "], Password: [" + (result.password ? "已提取" : "空") + "]");
-  console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
+  console.log(
+    "[DEBUG] 最终匹配结果: email=[" +
+      result.email +
+      "], password=[" +
+      (result.password ? "已获取" : "未获取") +
+      "]"
+  );
+  console.log("================ [DEBUG END] ================");
 
   return result;
 }
@@ -80,35 +93,45 @@ function getCookie(headers) {
   let cookie = headers["Set-Cookie"] || headers["set-cookie"];
   if (!cookie) return "";
   if (Array.isArray(cookie)) {
-    return cookie.map(item => String(item).split(";")[0]).join("; ");
+    return cookie.map((item) => String(item).split(";")[0]).join("; ");
   }
-  return String(cookie).split(",").map(item => item.split(";")[0]).join("; ");
+  return String(cookie)
+    .split(",")
+    .map((item) => item.split(";")[0])
+    .join("; ");
 }
 
 function login(email, password) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const request = {
       url: LOGIN_URL,
       method: "POST",
       headers: {
         "User-Agent": USER_AGENT,
         "Content-Type": "application/json",
-        "Accept": "application/json, text/plain, */*",
-        "Origin": BASE_URL,
-        "Referer": BASE_URL + "/login"
+        Accept: "application/json, text/plain, */*",
+        Origin: BASE_URL,
+        Referer: BASE_URL + "/login",
       },
-      body: JSON.stringify({ username: email, password: password })
+      body: JSON.stringify({ username: email, password: password }),
     };
 
-    $task.fetch(request)
-      .then(response => {
+    $task
+      .fetch(request)
+      .then((response) => {
         if (!response || response.statusCode !== 200) {
-          resolve({ success: false, message: "登录失败 HTTP " + (response ? response.statusCode : "无响应") });
+          resolve({
+            success: false,
+            message:
+              "登录失败 HTTP " + (response ? response.statusCode : "无响应"),
+          });
           return;
         }
 
         let data;
-        try { data = JSON.parse(response.body); } catch (e) {
+        try {
+          data = JSON.parse(response.body);
+        } catch (e) {
           resolve({ success: false, message: "登录接口返回数据异常" });
           return;
         }
@@ -125,15 +148,22 @@ function login(email, password) {
           uid: user.id,
           username: user.username || user.display_name || email,
           checkedIn: !!user.checked_in,
-          quota: user.quota !== undefined ? user.quota : (user.remainder_quota !== undefined ? user.remainder_quota : user.balance)
+          quota:
+            user.quota !== undefined
+              ? user.quota
+              : user.remainder_quota !== undefined
+              ? user.remainder_quota
+              : user.balance,
         });
       })
-      .catch(error => resolve({ success: false, message: "登录请求异常：" + error }));
+      .catch((error) =>
+        resolve({ success: false, message: "登录请求异常：" + error })
+      );
   });
 }
 
 function verifyCheckin(cookie, uid) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (!uid) {
       resolve({ success: false, message: "没有获取到用户 ID" });
       return;
@@ -144,26 +174,36 @@ function verifyCheckin(cookie, uid) {
       method: "GET",
       headers: {
         "User-Agent": USER_AGENT,
-        "Accept": "application/json, text/plain, */*",
-        "Cookie": cookie,
-        "New-API-User": String(uid)
-      }
+        Accept: "application/json, text/plain, */*",
+        Cookie: cookie,
+        "New-API-User": String(uid),
+      },
     };
 
-    $task.fetch(request)
-      .then(response => {
+    $task
+      .fetch(request)
+      .then((response) => {
         if (!response || response.statusCode !== 200) {
-          resolve({ success: false, message: "签到日志 HTTP " + (response ? response.statusCode : "无响应") });
+          resolve({
+            success: false,
+            message:
+              "签到日志 HTTP " + (response ? response.statusCode : "无响应"),
+          });
           return;
         }
 
         let data;
-        try { data = JSON.parse(response.body); } catch (e) {
+        try {
+          data = JSON.parse(response.body);
+        } catch (e) {
           resolve({ success: false, message: "签到日志返回数据异常" });
           return;
         }
 
-        const items = data && data.data && Array.isArray(data.data.items) ? data.data.items : [];
+        const items =
+          data && data.data && Array.isArray(data.data.items)
+            ? data.data.items
+            : [];
         let latest = null;
 
         for (const item of items) {
@@ -184,11 +224,20 @@ function verifyCheckin(cookie, uid) {
 
         const now = Math.floor(Date.now() / 1000);
         const diff = now - latest.timestamp;
-        let timeText = diff < 60 ? diff + " 秒前" : (diff < 3600 ? Math.floor(diff / 60) + " 分钟前" : (diff < 86400 ? Math.floor(diff / 3600) + " 小时前" : Math.floor(diff / 86400) + " 天前"));
+        let timeText =
+          diff < 60
+            ? diff + " 秒前"
+            : diff < 3600
+            ? Math.floor(diff / 60) + " 分钟前"
+            : diff < 86400
+            ? Math.floor(diff / 3600) + " 小时前"
+            : Math.floor(diff / 86400) + " 天前";
 
         resolve({ success: true, message: "签到记录：" + timeText });
       })
-      .catch(error => resolve({ success: false, message: "签到日志查询异常：" + error }));
+      .catch((error) =>
+        resolve({ success: false, message: "签到日志查询异常：" + error })
+      );
   });
 }
 
@@ -207,17 +256,19 @@ async function checkin(email, password) {
     return {
       success: true,
       message: "今日已签到，" + verifyResult.message,
-      quota: loginResult.quota
+      quota: loginResult.quota,
     };
   }
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const verifyResult = await verifyCheckin(loginResult.cookie, loginResult.uid);
 
   return {
     success: verifyResult.success,
-    message: verifyResult.success ? "签到成功，" + verifyResult.message : "签到状态：" + verifyResult.message,
-    quota: loginResult.quota
+    message: verifyResult.success
+      ? "签到成功，" + verifyResult.message
+      : "签到状态：" + verifyResult.message,
+    quota: loginResult.quota,
   };
 }
 
