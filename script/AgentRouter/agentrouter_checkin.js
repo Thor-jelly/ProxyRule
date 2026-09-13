@@ -1,5 +1,5 @@
 /*
- * AgentRouter 自动签到 (防 undefined 增强版)
+ * AgentRouter 自动签到 (完整调试打印版)
  * Quantumult X Script
  *
  * Repository: https://github.com/Thor-jelly/ProxyRule
@@ -14,32 +14,42 @@ const USER_AGENT =
   "Chrome/138.0.0.0 Safari/537.36";
 
 /**
- * 健壮的参数解析：兼容 $argument 未定义情况
+ * 完整参数调试打印解析函数
  */
 function getArguments() {
   const result = { email: "", password: "" };
-  let rawArg = "";
 
-  // 1. 尝试读取全局 $argument
-  if (typeof $argument !== "undefined" && $argument) {
-    rawArg = String($argument);
-  }
+  console.log("---------------- [AgentRouter 参数调试 开始] ----------------");
+  
+  // 1. 打印 $argument 变量的数据类型
+  const argType = typeof $argument;
+  console.log("[调试] $argument 变量类型: " + argType);
 
-  // 2. 备用逻辑：若 $argument 未定义，尝试从环境变量读取
-  if (!rawArg && typeof $environment !== "undefined" && $environment) {
-    if ($environment.option && $environment.option.argument) {
-      rawArg = String($environment.option.argument);
-    }
-  }
-
-  console.log("[AgentRouter 调试] 读取到的参数原文: [" + rawArg + "]");
-
-  if (!rawArg || rawArg.trim() === "") {
+  if (argType === "undefined") {
+    console.log("[调试] $argument 变量未定义 (undefined)");
+    console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
     return result;
   }
 
-  // 3. 正则提取 email
-  const emailMatch = rawArg.match(/email\s*=\s*([^&"'\s,]+)/i);
+  // 2. 转为字符串并打印原始数据及长度
+  const rawArg = String($argument);
+  console.log("[调试] $argument 原始字符串: [" + rawArg + "]");
+  console.log("[调试] $argument 字符串长度: " + rawArg.length);
+
+  if (!rawArg || rawArg.trim() === "") {
+    console.log("[调试] $argument 内容为空字符串或仅包含空格");
+    console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
+    return result;
+  }
+
+  // 3. 预防性清理前缀与包裹引号
+  let cleanArg = rawArg.replace(/^argument\s*=\s*/i, "").trim();
+  cleanArg = cleanArg.replace(/^["']+|["']+$|\s/g, "");
+  console.log("[调试] 清理后的待解析字符串: [" + cleanArg + "]");
+
+  // 4. 正则匹配 email
+  const emailMatch = cleanArg.match(/email\s*=\s*([^&"'\s,]+)/i);
+  console.log("[调试] email 正则匹配结果: " + JSON.stringify(emailMatch));
   if (emailMatch && emailMatch[1]) {
     try {
       result.email = decodeURIComponent(emailMatch[1].trim());
@@ -48,8 +58,9 @@ function getArguments() {
     }
   }
 
-  // 4. 正则提取 password
-  const passMatch = rawArg.match(/password\s*=\s*([^&"'\s,]+)/i);
+  // 5. 正则匹配 password
+  const passMatch = cleanArg.match(/password\s*=\s*([^&"'\s,]+)/i);
+  console.log("[调试] password 正则匹配结果: " + JSON.stringify(passMatch));
   if (passMatch && passMatch[1]) {
     try {
       result.password = decodeURIComponent(passMatch[1].trim());
@@ -58,8 +69,8 @@ function getArguments() {
     }
   }
 
-  console.log("[AgentRouter 调试] 解析到的 email: [" + result.email + "]");
-  console.log("[AgentRouter 调试] 解析到的 password: [" + (result.password ? "******" : "空") + "]");
+  console.log("[调试] 最终提取结果 -> Email: [" + result.email + "], Password: [" + (result.password ? "已提取" : "空") + "]");
+  console.log("---------------- [AgentRouter 参数调试 结束] ----------------");
 
   return result;
 }
@@ -211,7 +222,6 @@ async function checkin(email, password) {
 }
 
 async function main() {
-  console.log("[AgentRouter] === 脚本开始运行 ===");
   const args = getArguments();
   const email = args.email || "";
   const password = args.password || "";
