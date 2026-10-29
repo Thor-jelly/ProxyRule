@@ -17,8 +17,8 @@
 # ======================================
 # Google 静态资源
 HOST-SUFFIX,gstatic.com,网速超快
-# Google 下载服务（可选）
-;HOST-SUFFIX,dl.google.com,网速超快
+# Google 下载服务（可选，暂不启用）
+# HOST-SUFFIX,dl.google.com,网速超快
 
 # ======================================
 # 开发工具和文档

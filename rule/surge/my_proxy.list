@@ -15,8 +15,8 @@
 # ======================================
 # Google 静态资源
 DOMAIN-SUFFIX,gstatic.com
-# Google 下载服务（可选）
-;DOMAIN-SUFFIX,dl.google.com
+# Google 下载服务（可选，暂不启用）
+# DOMAIN-SUFFIX,dl.google.com
 
 # ======================================
 # 开发工具和文档
